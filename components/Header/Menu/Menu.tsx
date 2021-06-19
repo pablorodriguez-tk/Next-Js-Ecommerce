@@ -2,6 +2,7 @@ import { Container, Menu, Grid, Icon, Label } from 'semantic-ui-react';
 import Link from 'next/link';
 import BasicModal from '../../Modal/BasicModal/BasicModal';
 import { useState } from 'react';
+import Auth from '../../Auth';
 
 interface MenuOptionsProps {
   onShowModal: () => void;
@@ -9,8 +10,10 @@ interface MenuOptionsProps {
 
 const MenuWeb: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState('Login');
 
   const onShowModal = () => setShowModal(true);
+  const onCloseModal = () => setShowModal(false);
 
   return (
     <div className="menu">
@@ -27,10 +30,10 @@ const MenuWeb: React.FC = () => {
       <BasicModal
         show={showModal}
         setShow={setShowModal}
-        title="Inicia sesion"
+        title={modalTitle}
         size="small"
       >
-        <h2>Contenido del modal</h2>
+        <Auth onCloseModal={onCloseModal} setModalTitle={setModalTitle} />
       </BasicModal>
     </div>
   );
@@ -57,7 +60,7 @@ const MenuOptions: React.FC<MenuOptionsProps> = ({ onShowModal }) => {
     <Menu>
       <Menu.Item onClick={onShowModal}>
         <Icon name="user outline" />
-        Mi cuenta
+        Account
       </Menu.Item>
     </Menu>
   );
