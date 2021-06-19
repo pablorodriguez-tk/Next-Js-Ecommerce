@@ -1,7 +1,17 @@
 import { Container, Menu, Grid, Icon, Label } from 'semantic-ui-react';
 import Link from 'next/link';
+import BasicModal from '../../Modal/BasicModal/BasicModal';
+import { useState } from 'react';
 
-const MenuWeb = () => {
+interface MenuOptionsProps {
+  onShowModal: () => void;
+}
+
+const MenuWeb: React.FC = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const onShowModal = () => setShowModal(true);
+
   return (
     <div className="menu">
       <Container>
@@ -10,15 +20,23 @@ const MenuWeb = () => {
             <MenuPlataforms />
           </Grid.Column>
           <Grid.Column className="menu__right" width={10}>
-            <MenuOptions />
+            <MenuOptions onShowModal={onShowModal} />
           </Grid.Column>
         </Grid>
       </Container>
+      <BasicModal
+        show={showModal}
+        setShow={setShowModal}
+        title="Inicia sesion"
+        size="small"
+      >
+        <h2>Contenido del modal</h2>
+      </BasicModal>
     </div>
   );
 };
 
-const MenuPlataforms = () => {
+const MenuPlataforms: React.FC = () => {
   return (
     <Menu>
       <Link href="/playstation">
@@ -34,10 +52,10 @@ const MenuPlataforms = () => {
   );
 };
 
-const MenuOptions = () => {
+const MenuOptions: React.FC<MenuOptionsProps> = ({ onShowModal }) => {
   return (
     <Menu>
-      <Menu.Item>
+      <Menu.Item onClick={onShowModal}>
         <Icon name="user outline" />
         Mi cuenta
       </Menu.Item>

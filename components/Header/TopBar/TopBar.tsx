@@ -1,7 +1,7 @@
 import { Container, Grid, Image, Input } from 'semantic-ui-react';
 import Link from 'next/link';
 
-const TopBar = () => {
+const TopBar: React.FC = () => {
   return (
     <div className="top-bar">
       <Container>
@@ -18,7 +18,7 @@ const TopBar = () => {
   );
 };
 
-const Logo = () => {
+const Logo: React.FC = () => {
   return (
     <Link href="/">
       <a>
@@ -28,7 +28,7 @@ const Logo = () => {
   );
 };
 
-const Search = () => {
+const Search: React.FC = () => {
   return <Input id="search-game" icon={{ name: 'search' }} />;
 };
 

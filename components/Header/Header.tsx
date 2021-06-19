@@ -1,7 +1,7 @@
 import Menu from './Menu';
 import TopBar from './TopBar';
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
     <div className="header">
       <TopBar />
