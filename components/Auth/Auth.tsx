@@ -20,7 +20,10 @@ const Auth: React.FC<AuthProps> = ({ onCloseModal, setModalTitle }) => {
   };
 
   return showLogin ? (
-    <LoginForm showRegisterForm={showRegisterForm} />
+    <LoginForm
+      showRegisterForm={showRegisterForm}
+      onCloseModal={onCloseModal}
+    />
   ) : (
     <RegisterForm showLoginForm={showLoginForm} />
   );

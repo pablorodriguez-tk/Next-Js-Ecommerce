@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button } from 'semantic-ui-react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import registerApi from '../../../api/user';
+import { registerApi } from '../../../api/user';
 import { toast } from 'react-toastify';
 
 interface RegisterFormProps {
@@ -66,11 +66,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ showLoginForm }) => {
         error={formik.errors.password}
       />
       <div className="actions">
-        <Button type="button" basic>
+        <Button type="button" basic onClick={showLoginForm}>
           Log In
         </Button>
         <Button type="submit" className="submit" loading={loading}>
-          Register
+          Sign Up
         </Button>
       </div>
     </Form>
