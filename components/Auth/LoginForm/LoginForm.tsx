@@ -1,9 +1,11 @@
+import { AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Button, Form } from 'semantic-ui-react';
 import * as Yup from 'yup';
 import { loginApi } from '../../../api/user';
+import { useAuth } from '../../../hooks/useAuth';
 
 interface LoginFormProps {
   showRegisterForm: () => void;
@@ -14,6 +16,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
   showRegisterForm,
   onCloseModal,
 }) => {
+  const { login } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: initialValues(),
@@ -22,7 +26,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
       setLoading(true);
       const response = await loginApi(formData);
       if (response?.data.jwt) {
-        console.log(response);
+        login(response.data.jwt);
         onCloseModal();
       } else {
         toast.error('Email or password incorrect');
