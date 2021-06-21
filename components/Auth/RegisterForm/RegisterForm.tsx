@@ -1,19 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Button } from 'semantic-ui-react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import registerApi from '../../../api/user';
+import { toast } from 'react-toastify';
 
 interface RegisterFormProps {
   showLoginForm: () => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ showLoginForm }) => {
+  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
-    onSubmit: (formData) => {
-      registerApi(formData);
+
+    onSubmit: async (formData) => {
+      setLoading(true);
+      const response = await registerApi(formData);
+      console.log(response);
+      if (response?.data.jwt) {
+        showLoginForm();
+      } else {
+        toast.error('Registration error, email is already registered');
+      }
+      setLoading(false);
     },
   });
 
@@ -58,7 +69,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ showLoginForm }) => {
         <Button type="button" basic>
           Log In
         </Button>
-        <Button type="submit" className="submit">
+        <Button type="submit" className="submit" loading={loading}>
           Register
         </Button>
       </div>
