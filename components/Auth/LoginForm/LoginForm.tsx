@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Button, Form } from 'semantic-ui-react';
 import * as Yup from 'yup';
-import { loginApi } from '../../../api/user';
+import { resetPasswordApi, loginApi } from '../../../api/user';
 import { useAuth } from '../../../hooks/useAuth';
 
 interface LoginFormProps {
@@ -17,8 +17,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
   onCloseModal,
 }) => {
   const { login } = useAuth();
-
   const [loading, setLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
@@ -34,6 +34,18 @@ const LoginForm: React.FC<LoginFormProps> = ({
       setLoading(false);
     },
   });
+
+  const resetPassword = () => {
+    formik.setErrors({});
+    const validateEmail = Yup.string().email().required();
+
+    if (!validateEmail.isValidSync(formik.values.identifier)) {
+      formik.setErrors({ identifier: true });
+    } else {
+      resetPasswordApi(formik.values.identifier);
+    }
+  };
+
   return (
     <Form className="login-form" onSubmit={formik.handleSubmit}>
       <Form.Input
@@ -58,7 +70,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
           <Button className="submit" type="submit" loading={loading}>
             Sign In
           </Button>
-          <Button type="button">Did you forget your password?</Button>
+          <Button type="button" onClick={resetPassword}>
+            Did you forget your password?
+          </Button>
         </div>
       </div>
     </Form>
