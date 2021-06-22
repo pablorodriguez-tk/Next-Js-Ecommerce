@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "classnames": "^2.2.6",
     "formik": "^2.2.9",
     "jwt-decode": "^3.1.2",
     "next": "11.0.0",
@@ -22,6 +23,7 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
+    "@types/classnames": "^2.3.1",
     "@types/react": "17.0.11",
     "eslint": "7.28.0",
     "eslint-config-next": "11.0.0",

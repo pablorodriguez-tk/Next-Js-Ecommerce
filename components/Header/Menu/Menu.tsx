@@ -102,7 +102,7 @@ const MenuOptions: React.FC<MenuOptionsProps> = ({
             </Menu.Item>
           </Link>
           <Link href="/cart">
-            <Menu.Item as="a">
+            <Menu.Item>
               <Icon name="cart" />
               Cart
             </Menu.Item>
