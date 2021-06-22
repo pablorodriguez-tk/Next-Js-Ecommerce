@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_PATH } from '../utils/constants';
+import { authFetch } from '../utils/fetch';
 
 export const registerApi = async (formData: {
   name: string;
@@ -40,5 +41,15 @@ export const resetPasswordApi = async (email: string) => {
     return response;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getMeApi = async (logout: () => void) => {
+  try {
+    const url = `${BASE_PATH}/users/me`;
+    const response = await authFetch(url, null, logout);
+    return response ? response : null;
+  } catch (error) {
+    return null;
   }
 };

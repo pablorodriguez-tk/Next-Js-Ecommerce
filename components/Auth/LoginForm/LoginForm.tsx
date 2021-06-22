@@ -1,6 +1,5 @@
-import { AxiosResponse } from 'axios';
 import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Button, Form } from 'semantic-ui-react';
 import * as Yup from 'yup';

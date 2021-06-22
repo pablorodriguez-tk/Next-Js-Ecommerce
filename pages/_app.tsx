@@ -6,14 +6,15 @@ import '../scss/global.scss';
 import 'semantic-ui-css/semantic.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthContext from '../context/AuthContext';
-import { getToken, setToken } from '../api/token';
+import { getToken, removeToken, setToken } from '../api/token';
+import { useRouter } from 'next/dist/client/router';
 
 export interface AuthProps {
   token: string;
   idUser: string;
 }
 
-interface MyToken {
+export interface MyToken {
   id: string;
   exp: number;
   iat: number;
@@ -22,6 +23,7 @@ interface MyToken {
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [auth, setAuth] = useState<AuthProps | undefined | null>(undefined);
   const [reloadUser, setReloadUser] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const token = getToken();
@@ -44,11 +46,19 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     });
   };
 
+  const logout = () => {
+    if (auth) {
+      removeToken();
+      setAuth(null);
+      router.push('/');
+    }
+  };
+
   const authData = useMemo(
     () => ({
       auth,
       login,
-      logout: () => null,
+      logout,
       setReloadUser,
     }),
     [auth]
