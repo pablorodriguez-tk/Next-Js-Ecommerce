@@ -18,7 +18,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ showLoginForm }) => {
     onSubmit: async (formData) => {
       setLoading(true);
       const response = await registerApi(formData);
-      console.log(response);
       if (response?.data.jwt) {
         showLoginForm();
       } else {

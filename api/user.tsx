@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Response, ResponseGetMeAPI } from '../interfaces/interfaces';
 import { BASE_PATH } from '../utils/constants';
 import { authFetch } from '../utils/fetch';
 
@@ -11,7 +12,7 @@ export const registerApi = async (formData: {
 }) => {
   try {
     const url = `${BASE_PATH}/auth/local/register`;
-    const response = await axios.post(url, formData);
+    const response: Response = await axios.post(url, formData);
     return response;
   } catch (error) {
     console.log(error);
@@ -25,7 +26,7 @@ export const loginApi = async (formData: {
 }) => {
   try {
     const url = `${BASE_PATH}/auth/local`;
-    const response = await axios.post(url, formData);
+    const response: Response = await axios.post(url, formData);
     return response;
   } catch (error) {
     console.log(error);
@@ -47,7 +48,7 @@ export const resetPasswordApi = async (email: string) => {
 export const getMeApi = async (logout: () => void) => {
   try {
     const url = `${BASE_PATH}/users/me`;
-    const response = await authFetch(url, null, logout);
+    const response: ResponseGetMeAPI = await authFetch(url, null, logout);
     return response ? response : null;
   } catch (error) {
     return null;

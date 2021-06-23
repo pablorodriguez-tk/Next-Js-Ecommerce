@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Auth from '../../Auth';
 import { useAuth } from '../../../hooks/useAuth';
 import { getMeApi } from '../../../api/user';
+import { ResponseGetMeAPI } from '../../../interfaces/interfaces';
 
 interface MenuOptionsProps {
   onShowModal: () => void;
@@ -15,7 +16,9 @@ interface MenuOptionsProps {
 const MenuWeb: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('Login');
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState<ResponseGetMeAPI | null | undefined>(
+    undefined
+  );
   const { auth, logout } = useAuth();
 
   const onShowModal = () => setShowModal(true);
