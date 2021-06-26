@@ -48,9 +48,32 @@ export const resetPasswordApi = async (email: string) => {
 export const getMeApi = async (logout: () => void) => {
   try {
     const url = `${BASE_PATH}/users/me`;
-    const response: ResponseGetMeAPI = await authFetch(url, null, logout);
+    const response: ResponseGetMeAPI = await authFetch(
+      url,
+      null,
+      logout,
+      'get'
+    );
     return response ? response : null;
   } catch (error) {
+    return null;
+  }
+};
+
+export const updateNameApi = async (
+  idUser: string,
+  data: {
+    name: string;
+    lastname: string;
+  },
+  logout: () => void
+) => {
+  try {
+    const url = `${BASE_PATH}/users/${idUser}`;
+    const response = await authFetch(url, data, logout, 'put');
+    return response ? response : null;
+  } catch (error) {
+    console.log(error);
     return null;
   }
 };

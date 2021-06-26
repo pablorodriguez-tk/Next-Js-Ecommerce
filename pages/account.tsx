@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getMeApi } from '../api/user';
 import ChangeNameForm from '../components/Account/ChangeNameForm';
 import { useAuth } from '../hooks/useAuth';
-import { ResponseGetMeAPI } from '../interfaces/interfaces';
+import { ResponseGetMeAPI, User } from '../interfaces/interfaces';
 import BasicLayout from '../layouts/BasicLayout';
 
 const Account = () => {
@@ -11,7 +11,7 @@ const Account = () => {
   const [user, setUser] = useState<ResponseGetMeAPI | null | undefined>(
     undefined
   );
-  const { auth, logout } = useAuth();
+  const { auth, logout, setReloadUser } = useAuth();
 
   useEffect(() => {
     (async () => {
@@ -31,21 +31,31 @@ const Account = () => {
 
   return (
     <BasicLayout className="account">
-      <Configuration user={user} />
+      <Configuration
+        user={user!}
+        logout={logout}
+        setReloadUser={setReloadUser}
+      />
     </BasicLayout>
   );
 };
 
 interface ConfigurationProps {
   user: User;
+  logout: () => void;
+  setReloadUser: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Configuration = ({ user }: ConfigurationProps) => {
+const Configuration = ({ user, logout, setReloadUser }: ConfigurationProps) => {
   return (
     <div className="account__configuration">
       <div className="title">Configuration</div>
       <div className="data">
-        <ChangeNameForm user={user} />
+        <ChangeNameForm
+          user={user}
+          logout={logout}
+          setReloadUser={setReloadUser}
+        />
       </div>
     </div>
   );

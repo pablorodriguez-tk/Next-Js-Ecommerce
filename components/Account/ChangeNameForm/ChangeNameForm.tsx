@@ -1,20 +1,37 @@
 import { useFormik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form } from 'semantic-ui-react';
 import { User } from '../../../interfaces/interfaces';
 import * as Yup from 'yup';
-import { Toast } from 'react-toastify';
+import { toast, Toast } from 'react-toastify';
+import { updateNameApi } from '../../../api/user';
 
 interface ChangeNameFormProps {
   user: User;
+  logout: () => void;
+  setReloadUser: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ChangeNameForm = ({ user }: ChangeNameFormProps) => {
+const ChangeNameForm = ({
+  user,
+  logout,
+  setReloadUser,
+}: ChangeNameFormProps) => {
+  const [loading, setLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: initialValues(user.name, user.lastname),
     validationSchema: Yup.object(validationSchema()),
-    onSubmit: (formData) => {
-      console.log(formData);
+    onSubmit: async (formData) => {
+      setLoading(true);
+      const response = await updateNameApi(user.id, formData, logout);
+      if (!response) {
+        toast.error('Update error');
+      } else {
+        setReloadUser(true);
+        toast.success('Name and lastname updated');
+      }
+      setLoading(false);
     },
   });
   return (
@@ -37,7 +54,9 @@ const ChangeNameForm = ({ user }: ChangeNameFormProps) => {
             error={formik.errors.lastname}
           />
         </Form.Group>
-        <Button className="submit">Update</Button>
+        <Button className="submit" loading={loading}>
+          Update
+        </Button>
       </Form>
     </div>
   );
