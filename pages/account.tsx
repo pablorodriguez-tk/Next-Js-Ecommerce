@@ -7,6 +7,9 @@ import ChangePasswordForm from '../components/Account/ChangePasswordForm';
 import { useAuth } from '../hooks/useAuth';
 import { ResponseGetMeAPI, User } from '../interfaces/interfaces';
 import BasicLayout from '../layouts/BasicLayout';
+import { Icon } from 'semantic-ui-react';
+import BasicModal from '../components/Modal/BasicModal';
+import AddressForm from '../components/Account/AddressForm';
 
 const Account = () => {
   const router = useRouter();
@@ -38,6 +41,7 @@ const Account = () => {
         logout={logout}
         setReloadUser={setReloadUser}
       />
+      <Addresses />
     </BasicLayout>
   );
 };
@@ -65,6 +69,33 @@ const Configuration = ({ user, logout, setReloadUser }: ConfigurationProps) => {
         />
         <ChangePasswordForm user={user} logout={logout} />
       </div>
+    </div>
+  );
+};
+
+const Addresses = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [titleModal, setTitleModal] = useState('');
+  const [formModal, setFormModal] = useState(null);
+
+  const openModal = (title) => {
+    setTitleModal(title);
+    setFormModal(<AddressForm />);
+    setShowModal(true);
+  };
+
+  return (
+    <div className="account__addresses">
+      <div className="title">
+        Addresses{' '}
+        <Icon name="plus" link onClick={() => openModal('New Address')} />
+      </div>
+      <div className="data">
+        <p>Addresses list</p>
+      </div>
+      <BasicModal title={titleModal} setShow={setShowModal} show={showModal}>
+        {formModal}
+      </BasicModal>
     </div>
   );
 };
