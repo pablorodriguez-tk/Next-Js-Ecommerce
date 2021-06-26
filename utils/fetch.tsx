@@ -28,7 +28,6 @@ export const authFetch = async (
         }
         if (type === 'put') {
           const response = await axios.put(url, paramsTemp);
-          console.log(response);
           return response.data;
         }
       } catch (error) {

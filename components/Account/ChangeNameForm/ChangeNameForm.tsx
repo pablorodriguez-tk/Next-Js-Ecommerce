@@ -1,9 +1,8 @@
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import { Button, Form } from 'semantic-ui-react';
-import { User } from '../../../interfaces/interfaces';
 import * as Yup from 'yup';
-import { toast, Toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { updateNameApi } from '../../../api/user';
 import { ConfigurationProps } from '../../../pages/account';
 
