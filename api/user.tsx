@@ -92,3 +92,18 @@ export const updateEmailApi = async (
     return null;
   }
 };
+
+export const updatePasswordApi = async (
+  idUser: string,
+  password: string,
+  logout: () => void
+) => {
+  try {
+    const url = `${BASE_PATH}/users/${idUser}`;
+    const response = await authFetch(url, { password }, logout, 'put');
+    return response ? response : null;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};

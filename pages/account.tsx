@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getMeApi } from '../api/user';
 import ChangeEmailForm from '../components/Account/ChangeEmailForm';
 import ChangeNameForm from '../components/Account/ChangeNameForm';
+import ChangePasswordForm from '../components/Account/ChangePasswordForm';
 import { useAuth } from '../hooks/useAuth';
 import { ResponseGetMeAPI, User } from '../interfaces/interfaces';
 import BasicLayout from '../layouts/BasicLayout';
@@ -44,7 +45,7 @@ const Account = () => {
 export interface ConfigurationProps {
   user: User;
   logout: () => void;
-  setReloadUser: React.Dispatch<React.SetStateAction<boolean>>;
+  setReloadUser?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Configuration = ({ user, logout, setReloadUser }: ConfigurationProps) => {
@@ -62,6 +63,7 @@ const Configuration = ({ user, logout, setReloadUser }: ConfigurationProps) => {
           logout={logout}
           setReloadUser={setReloadUser}
         />
+        <ChangePasswordForm user={user} logout={logout} />
       </div>
     </div>
   );
