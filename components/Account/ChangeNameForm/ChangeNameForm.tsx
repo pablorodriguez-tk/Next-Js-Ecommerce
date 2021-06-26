@@ -5,18 +5,13 @@ import { User } from '../../../interfaces/interfaces';
 import * as Yup from 'yup';
 import { toast, Toast } from 'react-toastify';
 import { updateNameApi } from '../../../api/user';
-
-interface ChangeNameFormProps {
-  user: User;
-  logout: () => void;
-  setReloadUser: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { ConfigurationProps } from '../../../pages/account';
 
 const ChangeNameForm = ({
   user,
   logout,
   setReloadUser,
-}: ChangeNameFormProps) => {
+}: ConfigurationProps) => {
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({

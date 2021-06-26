@@ -1,6 +1,7 @@
 import { useRouter } from 'next/dist/client/router';
 import React, { useEffect, useState } from 'react';
 import { getMeApi } from '../api/user';
+import ChangeEmailForm from '../components/Account/ChangeEmailForm';
 import ChangeNameForm from '../components/Account/ChangeNameForm';
 import { useAuth } from '../hooks/useAuth';
 import { ResponseGetMeAPI, User } from '../interfaces/interfaces';
@@ -40,7 +41,7 @@ const Account = () => {
   );
 };
 
-interface ConfigurationProps {
+export interface ConfigurationProps {
   user: User;
   logout: () => void;
   setReloadUser: React.Dispatch<React.SetStateAction<boolean>>;
@@ -52,6 +53,11 @@ const Configuration = ({ user, logout, setReloadUser }: ConfigurationProps) => {
       <div className="title">Configuration</div>
       <div className="data">
         <ChangeNameForm
+          user={user}
+          logout={logout}
+          setReloadUser={setReloadUser}
+        />
+        <ChangeEmailForm
           user={user}
           logout={logout}
           setReloadUser={setReloadUser}
