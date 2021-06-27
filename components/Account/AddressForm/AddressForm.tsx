@@ -1,16 +1,50 @@
 import { useFormik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { Button, Form } from 'semantic-ui-react';
 import * as Yup from 'yup';
+import { createAddressApi } from '../../../api/address';
+import { useAuth } from '../../../hooks/useAuth';
 
-const AddressForm = () => {
+export interface AddressProps {
+  title: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  phone: string;
+}
+
+const AddressForm = ({ setShowModal }) => {
+  const [loading, setLoading] = useState(false);
+  const { auth, logout } = useAuth();
+
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
-    onSubmit: (formData) => {
-      console.log(formData);
+    onSubmit: (formData: AddressProps) => {
+      createAddress(formData);
     },
   });
+
+  const createAddress = async (formData: AddressProps) => {
+    setLoading(true);
+    const formDataTemp = {
+      ...formData,
+      users_permissions_user: auth!.idUser,
+    };
+    const response = await createAddressApi(formDataTemp, logout, auth!.idUser);
+    if (!response) {
+      toast.warning('Error when creating the address');
+      setLoading(false);
+    } else {
+      formik.resetForm();
+      setLoading(false);
+      setShowModal(false);
+    }
+  };
+
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Form.Input
@@ -83,7 +117,7 @@ const AddressForm = () => {
         />
       </Form.Group>
       <div className="actions">
-        <Button type="submit" className="submit">
+        <Button type="submit" className="submit" loading={loading}>
           Add Address
         </Button>
       </div>

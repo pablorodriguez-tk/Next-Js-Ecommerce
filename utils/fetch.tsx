@@ -5,29 +5,30 @@ export const authFetch = async (
   url: string,
   params: any,
   logout: () => void,
-  type: 'get' | 'put' | 'delete'
+  type: 'get' | 'put' | 'delete' | 'post'
 ) => {
   const token = getToken();
+
   if (!token) {
     logout();
+    axios.defaults.headers.common = {};
   } else {
     if (hasExpiredToken(token)) {
       logout();
+      axios.defaults.headers.common = {};
     } else {
-      const paramsTemp = {
-        ...params,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+      axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
       try {
         if (type === 'get') {
-          const response = await axios.get(url, paramsTemp);
-
+          const response = await axios.get(url, params);
           return response.data;
         }
         if (type === 'put') {
-          const response = await axios.put(url, paramsTemp);
+          const response = await axios.put(url, params);
+          return response.data;
+        }
+        if (type === 'post') {
+          const response = await axios.post(url, params);
           return response.data;
         }
       } catch (error) {

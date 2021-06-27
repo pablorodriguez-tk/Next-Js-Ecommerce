@@ -25,7 +25,7 @@ const ChangeEmailForm = ({
         console.log(response);
         setReloadUser(true);
         toast.success('Email updated');
-        formik.handleReset();
+        formik.resetForm();
       }
       setLoading(false);
     },

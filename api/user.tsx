@@ -38,7 +38,7 @@ export const resetPasswordApi = async (email: string) => {
   console.log(email);
   try {
     const url = `${BASE_PATH}/auth/forgot-password`;
-    const response = await axios.post(url, email);
+    const response = await axios.post(url, { email });
     return response;
   } catch (error) {
     console.log(error);
