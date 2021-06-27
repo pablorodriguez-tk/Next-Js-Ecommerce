@@ -91,3 +91,24 @@ export interface Role2 {
   __v: number;
   id: string;
 }
+
+export interface AddressListProps {
+  address: AddressResponse;
+}
+
+export interface AddressResponse {
+  _id: string;
+  title: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  phone: string;
+  published_at: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  users_permissions_user: User;
+  id: string;
+}

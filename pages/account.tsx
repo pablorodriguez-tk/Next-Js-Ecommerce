@@ -10,6 +10,7 @@ import BasicLayout from '../layouts/BasicLayout';
 import { Icon } from 'semantic-ui-react';
 import BasicModal from '../components/Modal/BasicModal';
 import AddressForm from '../components/Account/AddressForm';
+import ListAddress from '../components/Account/ListAddress/ListAddress';
 
 const Account = () => {
   const router = useRouter();
@@ -87,11 +88,11 @@ const Addresses = () => {
   return (
     <div className="account__addresses">
       <div className="title">
-        Addresses{' '}
+        Addresses
         <Icon name="plus" link onClick={() => openModal('New Address')} />
       </div>
       <div className="data">
-        <p>Addresses list</p>
+        <ListAddress />
       </div>
       <BasicModal title={titleModal} setShow={setShowModal} show={showModal}>
         {formModal}
