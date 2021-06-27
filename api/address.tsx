@@ -33,3 +33,18 @@ export const getAddressesApi = async (idUser: string, logout: () => void) => {
     return null;
   }
 };
+
+export const DeleteAddressesApi = async (
+  idAddress: string,
+  logout: () => void
+) => {
+  try {
+    const url = `${BASE_PATH}/addresses/${idAddress}`;
+    const response = await authFetch(url, null, logout, 'delete');
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};

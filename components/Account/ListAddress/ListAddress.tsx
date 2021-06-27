@@ -1,7 +1,7 @@
 import { map, size } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Button, Grid } from 'semantic-ui-react';
-import { getAddressesApi } from '../../../api/address';
+import { DeleteAddressesApi, getAddressesApi } from '../../../api/address';
 import { useAuth } from '../../../hooks/useAuth';
 import {
   AddressListProps,
@@ -38,7 +38,11 @@ const ListAddress = ({
         <Grid>
           {map(addresses, (ad) => (
             <Grid.Column key={ad.id} mobile={16} tablet={8} computer={4}>
-              <Address address={ad} />
+              <Address
+                address={ad}
+                logout={logout}
+                setReloadAddresses={setReloadAddresses}
+              />
             </Grid.Column>
           ))}
         </Grid>
@@ -47,8 +51,23 @@ const ListAddress = ({
   );
 };
 
-const Address = (props: AddressListProps) => {
-  const { address } = props;
+interface AddressProps {
+  address: AddressResponse;
+  logout: () => void;
+  setReloadAddresses: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Address = ({ address, logout, setReloadAddresses }: AddressProps) => {
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
+  const deleteAddress = async () => {
+    setLoadingDelete(true);
+    const response = await DeleteAddressesApi(address.id, logout);
+    if (response) {
+      setReloadAddresses(true);
+    }
+    setLoadingDelete(false);
+  };
 
   return (
     <div className="address">
@@ -61,7 +80,9 @@ const Address = (props: AddressListProps) => {
       <p>{address.phone}</p>
       <div className="actions">
         <Button primary>Edit</Button>
-        <Button>Remove</Button>
+        <Button onClick={deleteAddress} loading={loadingDelete}>
+          Remove
+        </Button>
       </div>
     </div>
   );

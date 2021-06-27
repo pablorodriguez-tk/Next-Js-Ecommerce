@@ -31,6 +31,10 @@ export const authFetch = async (
           const response = await axios.post(url, params);
           return response.data;
         }
+        if (type === 'delete') {
+          const response = await axios.delete(url, params);
+          return response.data;
+        }
       } catch (error) {
         return error;
       }
