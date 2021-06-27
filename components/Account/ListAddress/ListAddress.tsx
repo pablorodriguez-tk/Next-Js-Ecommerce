@@ -1,21 +1,20 @@
 import { map, size } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Button, Grid } from 'semantic-ui-react';
-import { DeleteAddressesApi, getAddressesApi } from '../../../api/address';
+import { deleteAddressesApi, getAddressesApi } from '../../../api/address';
 import { useAuth } from '../../../hooks/useAuth';
-import {
-  AddressListProps,
-  AddressResponse,
-} from '../../../interfaces/interfaces';
+import { AddressResponse } from '../../../interfaces/interfaces';
 
 interface AdressListProps {
   reloadAddresses: boolean;
   setReloadAddresses: React.Dispatch<React.SetStateAction<boolean>>;
+  openModal: (title: string) => void;
 }
 
 const ListAddress = ({
   reloadAddresses,
   setReloadAddresses,
+  openModal,
 }: AdressListProps) => {
   const [addresses, setAddresses] = useState<AddressResponse[]>([]);
   const { auth, logout } = useAuth();
@@ -42,6 +41,7 @@ const ListAddress = ({
                 address={ad}
                 logout={logout}
                 setReloadAddresses={setReloadAddresses}
+                openModal={openModal}
               />
             </Grid.Column>
           ))}
@@ -55,14 +55,20 @@ interface AddressProps {
   address: AddressResponse;
   logout: () => void;
   setReloadAddresses: React.Dispatch<React.SetStateAction<boolean>>;
+  openModal: (title: string) => void;
 }
 
-const Address = ({ address, logout, setReloadAddresses }: AddressProps) => {
+const Address = ({
+  address,
+  logout,
+  setReloadAddresses,
+  openModal,
+}: AddressProps) => {
   const [loadingDelete, setLoadingDelete] = useState(false);
 
   const deleteAddress = async () => {
     setLoadingDelete(true);
-    const response = await DeleteAddressesApi(address.id, logout);
+    const response = await deleteAddressesApi(address.id, logout);
     if (response) {
       setReloadAddresses(true);
     }
@@ -79,7 +85,12 @@ const Address = ({ address, logout, setReloadAddresses }: AddressProps) => {
       </p>
       <p>{address.phone}</p>
       <div className="actions">
-        <Button primary>Edit</Button>
+        <Button
+          primary
+          onClick={() => openModal(`Edit ${address.title}`, address)}
+        >
+          Edit
+        </Button>
         <Button onClick={deleteAddress} loading={loadingDelete}>
           Remove
         </Button>

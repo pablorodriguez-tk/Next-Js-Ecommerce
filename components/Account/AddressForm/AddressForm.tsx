@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Button, Form } from 'semantic-ui-react';
 import * as Yup from 'yup';
-import { createAddressApi } from '../../../api/address';
+import { createAddressApi, updateAddressesApi } from '../../../api/address';
 import { useAuth } from '../../../hooks/useAuth';
+import { AddressResponse } from '../../../interfaces/interfaces';
 
 export interface AddressProps {
   title: string;
@@ -19,17 +20,24 @@ export interface AddressProps {
 interface AdressFormProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   setReloadAddresses: React.Dispatch<React.SetStateAction<boolean>>;
+  newAddress: boolean;
+  address: AddressResponse;
 }
 
-const AddressForm = ({ setShowModal, setReloadAddresses }: AdressFormProps) => {
+const AddressForm = ({
+  setShowModal,
+  setReloadAddresses,
+  newAddress,
+  address,
+}: AdressFormProps) => {
   const [loading, setLoading] = useState(false);
   const { auth, logout } = useAuth();
 
   const formik = useFormik({
-    initialValues: initialValues(),
+    initialValues: initialValues(address),
     validationSchema: Yup.object(validationSchema()),
     onSubmit: (formData: AddressProps) => {
-      createAddress(formData);
+      newAddress ? createAddress(formData) : updateAddress(formData);
     },
   });
 
@@ -40,6 +48,24 @@ const AddressForm = ({ setShowModal, setReloadAddresses }: AdressFormProps) => {
       users_permissions_user: auth!.idUser,
     };
     const response = await createAddressApi(formDataTemp, logout, auth!.idUser);
+    if (!response) {
+      toast.warning('Error when creating the address');
+      setLoading(false);
+    } else {
+      formik.resetForm();
+      setReloadAddresses(true);
+      setLoading(false);
+      setShowModal(false);
+    }
+  };
+
+  const updateAddress = async (formData: AddressProps) => {
+    setLoading(true);
+    const formDataTemp = {
+      ...formData,
+      users_permissions_user: auth!.idUser,
+    };
+    const response = await updateAddressesApi(formDataTemp, logout, address.id);
     if (!response) {
       toast.warning('Error when creating the address');
       setLoading(false);
@@ -124,22 +150,22 @@ const AddressForm = ({ setShowModal, setReloadAddresses }: AdressFormProps) => {
       </Form.Group>
       <div className="actions">
         <Button type="submit" className="submit" loading={loading}>
-          Add Address
+          {newAddress ? 'Add Address' : 'Update Address'}
         </Button>
       </div>
     </Form>
   );
 };
 
-const initialValues = () => {
+const initialValues = (address: AddressResponse) => {
   return {
-    title: '',
-    name: '',
-    address: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    phone: '',
+    title: address?.title || '',
+    name: address?.name || '',
+    address: address?.address || '',
+    city: address?.city || '',
+    state: address?.state || '',
+    postalCode: address?.postalCode || '',
+    phone: address?.phone || '',
   };
 };
 

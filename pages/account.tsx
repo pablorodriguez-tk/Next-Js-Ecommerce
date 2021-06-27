@@ -5,7 +5,11 @@ import ChangeEmailForm from '../components/Account/ChangeEmailForm';
 import ChangeNameForm from '../components/Account/ChangeNameForm';
 import ChangePasswordForm from '../components/Account/ChangePasswordForm';
 import { useAuth } from '../hooks/useAuth';
-import { ResponseGetMeAPI, User } from '../interfaces/interfaces';
+import {
+  AddressResponse,
+  ResponseGetMeAPI,
+  User,
+} from '../interfaces/interfaces';
 import BasicLayout from '../layouts/BasicLayout';
 import { Icon } from 'semantic-ui-react';
 import BasicModal from '../components/Modal/BasicModal';
@@ -80,12 +84,14 @@ const Addresses = () => {
   const [formModal, setFormModal] = useState<JSX.Element | null>(null);
   const [reloadAddresses, setReloadAddresses] = useState<boolean>(false);
 
-  const openModal = (title: string) => {
+  const openModal = (title: string, address: AddressResponse) => {
     setTitleModal(title);
     setFormModal(
       <AddressForm
         setShowModal={setShowModal}
         setReloadAddresses={setReloadAddresses}
+        newAddress={address ? false : true}
+        address={address || null}
       />
     );
     setShowModal(true);
@@ -101,6 +107,7 @@ const Addresses = () => {
         <ListAddress
           reloadAddresses={reloadAddresses}
           setReloadAddresses={setReloadAddresses}
+          openModal={openModal}
         />
       </div>
       <BasicModal title={titleModal} setShow={setShowModal} show={showModal}>
