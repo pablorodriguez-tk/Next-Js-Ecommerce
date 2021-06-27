@@ -8,7 +8,15 @@ import {
   AddressResponse,
 } from '../../../interfaces/interfaces';
 
-const ListAddress = () => {
+interface AdressListProps {
+  reloadAddresses: boolean;
+  setReloadAddresses: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ListAddress = ({
+  reloadAddresses,
+  setReloadAddresses,
+}: AdressListProps) => {
   const [addresses, setAddresses] = useState<AddressResponse[]>([]);
   const { auth, logout } = useAuth();
 
@@ -16,8 +24,11 @@ const ListAddress = () => {
     (async () => {
       const response = await getAddressesApi(auth?.idUser!, logout);
       setAddresses(response || []);
+      setReloadAddresses(false);
     })();
-  }, []);
+  }, [reloadAddresses]);
+
+  if (addresses.length === 0) return null;
 
   return (
     <div className="list-address">

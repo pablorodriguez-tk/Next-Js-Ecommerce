@@ -75,13 +75,19 @@ const Configuration = ({ user, logout, setReloadUser }: ConfigurationProps) => {
 };
 
 const Addresses = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [titleModal, setTitleModal] = useState('');
-  const [formModal, setFormModal] = useState(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [titleModal, setTitleModal] = useState<string>('');
+  const [formModal, setFormModal] = useState<JSX.Element | null>(null);
+  const [reloadAddresses, setReloadAddresses] = useState<boolean>(false);
 
-  const openModal = (title) => {
+  const openModal = (title: string) => {
     setTitleModal(title);
-    setFormModal(<AddressForm setShowModal={setShowModal} />);
+    setFormModal(
+      <AddressForm
+        setShowModal={setShowModal}
+        setReloadAddresses={setReloadAddresses}
+      />
+    );
     setShowModal(true);
   };
 
@@ -92,7 +98,10 @@ const Addresses = () => {
         <Icon name="plus" link onClick={() => openModal('New Address')} />
       </div>
       <div className="data">
-        <ListAddress />
+        <ListAddress
+          reloadAddresses={reloadAddresses}
+          setReloadAddresses={setReloadAddresses}
+        />
       </div>
       <BasicModal title={titleModal} setShow={setShowModal} show={showModal}>
         {formModal}

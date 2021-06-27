@@ -16,7 +16,12 @@ export interface AddressProps {
   phone: string;
 }
 
-const AddressForm = ({ setShowModal }) => {
+interface AdressFormProps {
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setReloadAddresses: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const AddressForm = ({ setShowModal, setReloadAddresses }: AdressFormProps) => {
   const [loading, setLoading] = useState(false);
   const { auth, logout } = useAuth();
 
@@ -40,6 +45,7 @@ const AddressForm = ({ setShowModal }) => {
       setLoading(false);
     } else {
       formik.resetForm();
+      setReloadAddresses(true);
       setLoading(false);
       setShowModal(false);
     }
