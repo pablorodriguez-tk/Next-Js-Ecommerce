@@ -4,9 +4,10 @@ import { Loader } from 'semantic-ui-react';
 import { getLastGamesApi } from '../api/game';
 import BasicLayout from '../layouts/BasicLayout';
 import ListGames from '../components/ListGames/ListGames';
+import { GameList } from '../interfaces/gamesInterfaces';
 
 const Home: React.FC = () => {
-  const [games, setGames] = useState<[] | null>(null);
+  const [games, setGames] = useState<GameList[] | null>(null);
   console.log(games);
   useEffect(() => {
     (async () => {
