@@ -2,10 +2,16 @@ import { map } from 'lodash';
 import Link from 'next/link';
 import React from 'react';
 import { Grid, Image } from 'semantic-ui-react';
+import useWindowSize from '../../hooks/useWindowSize';
 import { GameList } from '../../interfaces/gamesInterfaces';
+import {
+  breakpointUpSm,
+  breakpointUpMd,
+  breakpointUpLg,
+} from '../../utils/breakpoint';
 
 interface ListGamesProps {
-  games: GameList[];
+  games: GameList[] | null;
 }
 
 interface ListGameProps {
@@ -13,10 +19,25 @@ interface ListGameProps {
 }
 
 const ListGames = ({ games }: ListGamesProps) => {
+  const { width } = useWindowSize();
+
+  const getColumnsRender = () => {
+    switch (true) {
+      case width > breakpointUpLg:
+        return 5;
+      case width > breakpointUpMd:
+        return 3;
+      case width > breakpointUpSm:
+        return 2;
+      default:
+        return 1;
+    }
+  };
+
   return (
     <div className="game-list">
       <Grid>
-        <Grid.Row columns={5}>
+        <Grid.Row columns={getColumnsRender()}>
           {map(games, (game) => (
             <Game game={game} />
           ))}
