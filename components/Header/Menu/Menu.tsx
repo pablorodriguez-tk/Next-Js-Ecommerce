@@ -6,6 +6,8 @@ import Auth from '../../Auth';
 import { useAuth } from '../../../hooks/useAuth';
 import { getMeApi } from '../../../api/user';
 import { ResponseGetMeAPI } from '../../../interfaces/interfaces';
+import { getPlatformsApi, ResponseGetPlatforms } from '../../../api/platform';
+import { get, map } from 'lodash';
 
 interface MenuOptionsProps {
   onShowModal: () => void;
@@ -19,6 +21,7 @@ const MenuWeb: React.FC = () => {
   const [user, setUser] = useState<ResponseGetMeAPI | null | undefined>(
     undefined
   );
+  const [platforms, setPlatforms] = useState<ResponseGetPlatforms[]>([]);
   const { auth, logout } = useAuth();
 
   const onShowModal = () => setShowModal(true);
@@ -31,12 +34,21 @@ const MenuWeb: React.FC = () => {
     })();
   }, [auth]);
 
+  useEffect(() => {
+    (async () => {
+      const response = await getPlatformsApi();
+      if (response) {
+        setPlatforms(response);
+      }
+    })();
+  }, []);
+
   return (
     <div className="menu">
       <Container>
         <Grid>
           <Grid.Column className="menu__left" width={6}>
-            <MenuPlataforms />
+            <MenuPlataforms platforms={platforms} />
           </Grid.Column>
           <Grid.Column className="menu__right" width={10}>
             {user !== undefined && (
@@ -61,18 +73,18 @@ const MenuWeb: React.FC = () => {
   );
 };
 
-const MenuPlataforms: React.FC = () => {
+interface MenuPlataformsProps {
+  platforms: ResponseGetPlatforms[];
+}
+
+const MenuPlataforms: React.FC<MenuPlataformsProps> = ({ platforms }) => {
   return (
     <Menu>
-      <Link href="/playstation">
-        <Menu.Item as="a">Playstation</Menu.Item>
-      </Link>
-      <Link href="/xbox">
-        <Menu.Item as="a">Xbox</Menu.Item>
-      </Link>
-      <Link href="/switch">
-        <Menu.Item as="a">Switch</Menu.Item>
-      </Link>
+      {map(platforms, (platform) => (
+        <Link href={`/games/${platform.url}`} key={platform._id} passHref>
+          <Menu.Item as="a">{platform.title}</Menu.Item>
+        </Link>
+      ))}
     </Menu>
   );
 };
