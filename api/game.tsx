@@ -33,3 +33,16 @@ export const getGamesPlatformApi = async (
     return null;
   }
 };
+
+export const getTotalGamesPlatformApi = async (
+  platform: string | string[] | undefined
+) => {
+  try {
+    const url = `${BASE_PATH}/games/count?platform.url=${platform}`;
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
