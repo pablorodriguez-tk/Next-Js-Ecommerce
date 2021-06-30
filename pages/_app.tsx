@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import AuthContext from '../context/AuthContext';
 import { getToken, removeToken, setToken } from '../api/token';
 import { useRouter } from 'next/dist/client/router';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 export interface AuthProps {
   token: string;
