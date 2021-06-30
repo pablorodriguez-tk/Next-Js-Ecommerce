@@ -4,6 +4,7 @@ import { getGameByUrlApi } from '../api/game';
 import { GameList } from '../interfaces/gamesInterfaces';
 import BasicLayout from '../layouts/BasicLayout';
 import HeaderGame from '../components/Game/HeaderGame';
+import TabsGame from '../components/Game/TabsGame';
 
 const Game = () => {
   const { query } = useRouter();
@@ -22,7 +23,7 @@ const Game = () => {
   return (
     <BasicLayout className="game">
       <HeaderGame game={game} />
-      <p>Tabs Game</p>
+      <TabsGame game={game} />
     </BasicLayout>
   );
 };
