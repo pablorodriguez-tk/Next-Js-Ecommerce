@@ -14,8 +14,6 @@ const Pagination = ({ totalGames, page, limitPerPage }: PaginationMyProps) => {
   const router = useRouter();
   const urlParse = queryString.parseUrl(router.asPath);
 
-  console.log(urlParse);
-
   const goToPage = (newPage: any) => {
     urlParse.query.page = newPage.toString();
     const url = queryString.stringifyUrl(urlParse);
@@ -33,7 +31,7 @@ const Pagination = ({ totalGames, page, limitPerPage }: PaginationMyProps) => {
         boundaryRange={0}
         siblingRange={1}
         ellipsisItem={null}
-      ></PaginationSU>
+      />
     </div>
   );
 };

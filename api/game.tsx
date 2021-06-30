@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Games } from '../interfaces/gamesInterfaces';
+import { GameList, Games } from '../interfaces/gamesInterfaces';
 import { BASE_PATH } from '../utils/constants';
 
 export const getLastGamesApi = async (limit: number) => {
@@ -41,6 +41,19 @@ export const getTotalGamesPlatformApi = async (
     const url = `${BASE_PATH}/games/count?platform.url=${platform}`;
     const response = await axios.get(url);
     return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export const getGameByUrlApi = async (
+  path: string | string[] | undefined
+): Promise<GameList | null> => {
+  try {
+    const url = `${BASE_PATH}/games?url=${path}`;
+    const response = await axios.get(url);
+    return response.data[0];
   } catch (error) {
     console.log(error);
     return null;

@@ -8,7 +8,6 @@ import { GameList } from '../interfaces/gamesInterfaces';
 
 const Home: React.FC = () => {
   const [games, setGames] = useState<GameList[] | null>(null);
-  console.log(games);
   useEffect(() => {
     (async () => {
       const response = await getLastGamesApi(50);

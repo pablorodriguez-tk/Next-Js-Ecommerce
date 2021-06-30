@@ -41,19 +41,16 @@ const Platform = () => {
   useEffect(() => {
     (async () => {
       const response: number = await getTotalGamesPlatformApi(query.platform);
-      if (response) {
-        setTotalGames(response);
-      }
+      setTotalGames(response);
     })();
   }, [query]);
-
   return (
     <BasicLayout className="platform">
       {isLoading && <Loader active>Loading games</Loader>}
       {!isLoading && size(games) === 0 && <div>There is no games</div>}
       {size(games) > 0 && <ListGames games={games} />}
 
-      {totalGames && (
+      {totalGames !== 0 && (
         <Pagination
           totalGames={totalGames}
           page={query.page ? Number(query.page) : 1}
