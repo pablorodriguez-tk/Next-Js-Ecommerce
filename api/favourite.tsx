@@ -41,3 +41,23 @@ export const addFavouriteApi = async (
     return null;
   }
 };
+
+export const deleteFavouriteApi = async (
+  idUser: string | undefined,
+  idGame: string,
+  logout: () => void
+) => {
+  try {
+    const dataFound = await isFavouriteApi(idUser, idGame, logout);
+    if (size(dataFound) > 0) {
+      const url = `${BASE_PATH}/favourites/${dataFound[0]?.id}`;
+      const response = await authFetch(url, null, logout, 'delete');
+      return response;
+    } else {
+      return 'This game is not in the favorites list';
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
