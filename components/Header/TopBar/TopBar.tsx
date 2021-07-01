@@ -1,5 +1,7 @@
 import { Container, Grid, Image, Input } from 'semantic-ui-react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const TopBar: React.FC = () => {
   return (
@@ -29,7 +31,25 @@ const Logo: React.FC = () => {
 };
 
 const Search: React.FC = () => {
-  return <Input id="search-game" icon={{ name: 'search' }} />;
+  const [searchStr, setSearchStr] = useState('');
+  const [load, setLoad] = useState(false);
+  const router = useRouter();
+  console.log(router);
+
+  useEffect(() => {
+    if (load) {
+      router.push(`/search?query=${searchStr}`);
+    }
+    setLoad(true);
+  }, [searchStr]);
+  return (
+    <Input
+      id="search-game"
+      icon={{ name: 'search' }}
+      value={router.query.query}
+      onChange={(_, data) => setSearchStr(data.value)}
+    />
+  );
 };
 
 export default TopBar;

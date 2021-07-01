@@ -59,3 +59,16 @@ export const getGameByUrlApi = async (
     return null;
   }
 };
+
+export const searchGamesApi = async (
+  title: string | string[] | undefined
+): Promise<GameList[] | null> => {
+  try {
+    const url = `${BASE_PATH}/games?_q=${title}`;
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
