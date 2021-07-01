@@ -9,7 +9,6 @@ import TabsGame from '../components/Game/TabsGame';
 const Game = () => {
   const { query } = useRouter();
   const [game, setGame] = useState<GameList | null>(null);
-  console.log(query.game);
 
   useEffect(() => {
     (async () => {

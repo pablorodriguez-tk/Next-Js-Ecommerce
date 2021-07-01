@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Icon, Image, Button } from 'semantic-ui-react';
 import { GameList } from '../../../interfaces/gamesInterfaces';
+import { addFavouriteApi, isFavouriteApi } from '../../../api/favourite';
+import { useAuth } from '../../../hooks/useAuth';
+import { size } from 'lodash';
+import classNames from 'classnames';
 
 interface HeaderGame {
   game: GameList;
@@ -23,11 +27,40 @@ const HeaderGame = ({ game }: HeaderGame) => {
 
 const Info = ({ game }: HeaderGame) => {
   const { title, summary, price, discount } = game;
+  const [isFavourite, setIsFavourite] = useState(false);
+  const { logout, auth } = useAuth();
+  const [reloadFavourite, setReloadFavourite] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const response = await isFavouriteApi(auth?.idUser, game.id, logout);
+      if (size(response) > 0) setIsFavourite(true);
+      else setIsFavourite(false);
+    })();
+    setReloadFavourite(false);
+  }, [game, reloadFavourite]);
+
+  const addFavourite = async () => {
+    if (auth) {
+      await addFavouriteApi(auth.idUser, game.id, logout);
+      setReloadFavourite(true);
+    }
+  };
+
+  const deleteFavourite = () => {
+    console.log('eliminar de favoritos');
+  };
+
   return (
     <>
       <div className="header-game__title">
         {title}
-        <Icon name="heart outline" link />
+        <Icon
+          name={isFavourite ? 'heart' : 'heart outline'}
+          className={classNames({ like: isFavourite })}
+          link
+          onClick={isFavourite ? deleteFavourite : addFavourite}
+        />
       </div>
       <div className="header-game__delivery">Entrega en 24/48hs</div>
       <div
