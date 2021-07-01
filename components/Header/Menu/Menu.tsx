@@ -104,7 +104,7 @@ const MenuOptions: React.FC<MenuOptionsProps> = ({
               My orders
             </Menu.Item>
           </Link>
-          <Link href="/whislist">
+          <Link href="/wishlist">
             <Menu.Item as="a">
               <Icon name="heart outline" />
               Whislist

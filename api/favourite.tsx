@@ -61,3 +61,17 @@ export const deleteFavouriteApi = async (
     return null;
   }
 };
+
+export const getFavouriteApi = async (
+  idUser: string | undefined,
+  logout: () => void
+) => {
+  try {
+    const url = `${BASE_PATH}/favourites?users_permissions_user=${idUser}`;
+    const response = await authFetch(url, null, logout, 'get');
+    return response;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
