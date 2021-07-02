@@ -7,6 +7,7 @@ import {
   isFavouriteApi,
 } from '../../../api/favourite';
 import { useAuth } from '../../../hooks/useAuth';
+import { useCart } from '../../../hooks/useCart';
 import { size } from 'lodash';
 import classNames from 'classnames';
 
@@ -30,9 +31,10 @@ const HeaderGame = ({ game }: HeaderGame) => {
 };
 
 const Info = ({ game }: HeaderGame) => {
-  const { title, summary, price, discount } = game;
+  const { title, summary, price, discount, url } = game;
   const [isFavourite, setIsFavourite] = useState(false);
   const { logout, auth } = useAuth();
+  const { addProductCart } = useCart();
   const [reloadFavourite, setReloadFavourite] = useState(false);
 
   useEffect(() => {
@@ -82,7 +84,12 @@ const Info = ({ game }: HeaderGame) => {
             <p>${(price - Math.floor(price * discount) / 100).toFixed(2)}</p>
           </div>
         </div>
-        <Button className="header-game__buy-btn">Comprar</Button>
+        <Button
+          className="header-game__buy-btn"
+          onClick={() => addProductCart(url)}
+        >
+          Comprar
+        </Button>
       </div>
     </>
   );

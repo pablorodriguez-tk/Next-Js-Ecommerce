@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import type { AppProps } from 'next/app';
 import jwtDecode from 'jwt-decode';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import '../scss/global.scss';
 import 'semantic-ui-css/semantic.min.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,7 +11,8 @@ import { useRouter } from 'next/dist/client/router';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import CartContext from '../context/CartContext';
-import { getProductsCart } from '../api/cart';
+import { addProductCart, getProductsCart } from '../api/cart';
+import axios from 'axios';
 
 export interface AuthProps {
   token: string;
@@ -28,6 +29,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   const [auth, setAuth] = useState<AuthProps | undefined | null>(undefined);
   const [reloadUser, setReloadUser] = useState(false);
   const router = useRouter();
+
+  axios.defaults.headers.common = {};
 
   useEffect(() => {
     const token = getToken();
@@ -58,6 +61,14 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     }
   };
 
+  const addProduct = (product) => {
+    if (auth) {
+      addProductCart(product);
+    } else {
+      toast.warning('To add a game to the cart you have to log in');
+    }
+  };
+
   const authData = useMemo(
     () => ({
       auth,
@@ -71,7 +82,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   const cartData = useMemo(
     () => ({
       productsCart: 0,
-      addProductCart: () => null,
+      addProductCart: (product) => addProduct(product),
       getProductCart: getProductsCart,
       removeProductCart: () => null,
       removeAllProductsCart: () => null,
