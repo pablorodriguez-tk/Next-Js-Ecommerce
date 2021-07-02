@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getGameByUrlApi } from '../api/game';
+import ShippingAddress from '../components/Cart/ShippingAddress';
 import SummaryCart from '../components/Cart/SummaryCart';
 import { useCart } from '../hooks/useCart';
 import { GameList } from '../interfaces/gamesInterfaces';
@@ -23,6 +24,7 @@ const EmptyCart = () => {
 const FullCart = ({ products }) => {
   const [productsData, setProductsData] = useState<GameList[] | GameList>([]);
   const [reloadCart, setReloadCart] = useState(false);
+  const [address, setAddress] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -46,6 +48,7 @@ const FullCart = ({ products }) => {
         setReloadCart={setReloadCart}
         reloadCart={reloadCart}
       />
+      <ShippingAddress setAddress={setAddress} />
     </BasicLayout>
   );
 };
