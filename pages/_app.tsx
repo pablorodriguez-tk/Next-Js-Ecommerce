@@ -10,6 +10,8 @@ import { getToken, removeToken, setToken } from '../api/token';
 import { useRouter } from 'next/dist/client/router';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import CartContext from '../context/CartContext';
+import { getProductsCart } from '../api/cart';
 
 export interface AuthProps {
   token: string;
@@ -66,24 +68,37 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     [auth]
   );
 
+  const cartData = useMemo(
+    () => ({
+      productsCart: 0,
+      addProductCart: () => null,
+      getProductCart: getProductsCart,
+      removeProductCart: () => null,
+      removeAllProductsCart: () => null,
+    }),
+    []
+  );
+
   if (auth === undefined) {
     return null;
   }
 
   return (
     <AuthContext.Provider value={authData}>
-      <Component {...pageProps} />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover
-      />
+      <CartContext.Provider value={cartData}>
+        <Component {...pageProps} />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover
+        />
+      </CartContext.Provider>
     </AuthContext.Provider>
   );
 };
