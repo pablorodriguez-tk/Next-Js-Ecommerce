@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getGameByUrlApi } from '../api/game';
+import SummaryCart from '../components/Cart/SummaryCart';
 import { useCart } from '../hooks/useCart';
 import { GameList } from '../interfaces/gamesInterfaces';
 import BasicLayout from '../layouts/BasicLayout/BasicLayout';
@@ -40,7 +41,7 @@ const FullCart = ({ products }) => {
 
   return (
     <BasicLayout className="full-cart">
-      <h1>{products}</h1>
+      <SummaryCart products={productsData} />
     </BasicLayout>
   );
 };
