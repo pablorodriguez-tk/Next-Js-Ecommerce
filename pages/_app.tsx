@@ -11,7 +11,11 @@ import { useRouter } from 'next/dist/client/router';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import CartContext from '../context/CartContext';
-import { addProductCart, getProductsCart } from '../api/cart';
+import {
+  addProductCart,
+  countProductsCart,
+  getProductsCart,
+} from '../api/cart';
 import axios from 'axios';
 
 export interface AuthProps {
@@ -28,6 +32,8 @@ export interface MyToken {
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [auth, setAuth] = useState<AuthProps | undefined | null>(undefined);
   const [reloadUser, setReloadUser] = useState(false);
+  const [totalProductsCart, setTotalProductsCart] = useState(0);
+  const [reloadCart, setReloadCart] = useState(false);
   const router = useRouter();
 
   axios.defaults.headers.common = {};
@@ -44,6 +50,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     }
     setReloadUser(false);
   }, [reloadUser]);
+
+  useEffect(() => {
+    setTotalProductsCart(countProductsCart());
+    setReloadCart(false);
+  }, [reloadCart, auth]);
 
   const login = (token: string) => {
     setToken(token);
@@ -64,6 +75,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   const addProduct = (product) => {
     if (auth) {
       addProductCart(product);
+      setReloadCart(true);
     } else {
       toast.warning('To add a game to the cart you have to log in');
     }
@@ -81,13 +93,13 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   const cartData = useMemo(
     () => ({
-      productsCart: 0,
+      productsCart: totalProductsCart,
       addProductCart: (product) => addProduct(product),
       getProductCart: getProductsCart,
       removeProductCart: () => null,
       removeAllProductsCart: () => null,
     }),
-    []
+    [totalProductsCart]
   );
 
   if (auth === undefined) {

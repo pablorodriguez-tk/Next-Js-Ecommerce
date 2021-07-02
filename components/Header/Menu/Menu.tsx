@@ -8,6 +8,7 @@ import { getMeApi } from '../../../api/user';
 import { ResponseGetMeAPI } from '../../../interfaces/interfaces';
 import { getPlatformsApi, ResponseGetPlatforms } from '../../../api/platform';
 import { get, map } from 'lodash';
+import { useCart } from '../../../hooks/useCart';
 
 interface MenuOptionsProps {
   onShowModal: () => void;
@@ -94,6 +95,7 @@ const MenuOptions: React.FC<MenuOptionsProps> = ({
   user,
   logout,
 }) => {
+  const { productsCart } = useCart();
   return (
     <Menu>
       {user ? (
@@ -119,6 +121,9 @@ const MenuOptions: React.FC<MenuOptionsProps> = ({
           <Link href="/cart">
             <Menu.Item>
               <Icon name="cart" />
+              <Label color="red" floating circular>
+                {productsCart}
+              </Label>
               Cart
             </Menu.Item>
           </Link>
