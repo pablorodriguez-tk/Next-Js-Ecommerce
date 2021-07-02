@@ -13,7 +13,7 @@ export const getProductsCart = () => {
   }
 };
 
-export const addProductCart = (product) => {
+export const addProductCart = (product: string) => {
   const cart = getProductsCart();
 
   if (!cart) {

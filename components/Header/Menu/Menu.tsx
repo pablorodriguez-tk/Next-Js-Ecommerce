@@ -121,9 +121,11 @@ const MenuOptions: React.FC<MenuOptionsProps> = ({
           <Link href="/cart">
             <Menu.Item>
               <Icon name="cart" />
-              <Label color="red" floating circular>
-                {productsCart}
-              </Label>
+              {productsCart > 0 && (
+                <Label color="red" floating circular>
+                  {productsCart}
+                </Label>
+              )}
               Cart
             </Menu.Item>
           </Link>

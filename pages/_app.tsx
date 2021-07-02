@@ -72,8 +72,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     }
   };
 
-  const addProduct = (product) => {
-    if (auth) {
+  const addProduct = (product: string) => {
+    const token = getToken();
+    if (token) {
       addProductCart(product);
       setReloadCart(true);
     } else {
@@ -94,8 +95,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   const cartData = useMemo(
     () => ({
       productsCart: totalProductsCart,
-      addProductCart: (product) => addProduct(product),
-      getProductCart: getProductsCart,
+      addProductCart: (product: string) => addProduct(product),
+      getProductsCart: getProductsCart,
       removeProductCart: () => null,
       removeAllProductsCart: () => null,
     }),
