@@ -34,7 +34,6 @@ const Search: React.FC = () => {
   const [searchStr, setSearchStr] = useState('');
   const [load, setLoad] = useState(false);
   const router = useRouter();
-  console.log(router);
 
   useEffect(() => {
     if (load) {

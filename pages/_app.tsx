@@ -15,6 +15,7 @@ import {
   addProductCart,
   countProductsCart,
   getProductsCart,
+  removeProductCart,
 } from '../api/cart';
 import axios from 'axios';
 
@@ -82,6 +83,16 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     }
   };
 
+  const removeProduct = (product: string) => {
+    const token = getToken();
+    if (token) {
+      removeProductCart(product);
+      setReloadCart(true);
+    } else {
+      toast.warning('To add a game to the cart you have to log in');
+    }
+  };
+
   const authData = useMemo(
     () => ({
       auth,
@@ -97,7 +108,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       productsCart: totalProductsCart,
       addProductCart: (product: string) => addProduct(product),
       getProductsCart: getProductsCart,
-      removeProductCart: () => null,
+      removeProductCart: (product: string) => removeProduct(product),
       removeAllProductsCart: () => null,
     }),
     [totalProductsCart]

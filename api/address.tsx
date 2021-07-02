@@ -41,7 +41,6 @@ export const deleteAddressesApi = async (
   try {
     const url = `${BASE_PATH}/addresses/${idAddress}`;
     const response = await authFetch(url, null, logout, 'delete');
-    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
@@ -57,7 +56,6 @@ export const updateAddressesApi = async (
   try {
     const url = `${BASE_PATH}/addresses/${idAddress}`;
     const response = await authFetch(url, formDataTemp, logout, 'put');
-    console.log(response);
     return response;
   } catch (error) {
     console.log(error);

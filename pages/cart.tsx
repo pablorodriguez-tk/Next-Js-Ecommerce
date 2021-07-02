@@ -9,8 +9,6 @@ const Cart = () => {
   const { getProductsCart } = useCart();
   const products = getProductsCart();
 
-  useEffect(() => {}, []);
-
   return !products ? <EmptyCart /> : <FullCart products={products} />;
 };
 
@@ -24,6 +22,7 @@ const EmptyCart = () => {
 
 const FullCart = ({ products }) => {
   const [productsData, setProductsData] = useState<GameList[] | GameList>([]);
+  const [reloadCart, setReloadCart] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -37,11 +36,16 @@ const FullCart = ({ products }) => {
         }
       }
     })();
-  }, []);
+    setReloadCart(false);
+  }, [reloadCart]);
 
   return (
     <BasicLayout className="full-cart">
-      <SummaryCart products={productsData} />
+      <SummaryCart
+        products={productsData}
+        setReloadCart={setReloadCart}
+        reloadCart={reloadCart}
+      />
     </BasicLayout>
   );
 };
