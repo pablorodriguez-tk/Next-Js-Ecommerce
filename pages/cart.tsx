@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getGameByUrlApi } from '../api/game';
+import Payment from '../components/Cart/Payment';
 import ShippingAddress from '../components/Cart/ShippingAddress';
 import SummaryCart from '../components/Cart/SummaryCart';
 import { useCart } from '../hooks/useCart';
@@ -49,6 +50,7 @@ const FullCart = ({ products }) => {
         reloadCart={reloadCart}
       />
       <ShippingAddress setAddress={setAddress} />
+      {address && <Payment products={productsData} address={address} />}
     </BasicLayout>
   );
 };
