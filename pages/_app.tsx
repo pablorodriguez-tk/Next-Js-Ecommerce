@@ -15,6 +15,7 @@ import {
   addProductCart,
   countProductsCart,
   getProductsCart,
+  removeAllProductsCart,
   removeProductCart,
 } from '../api/cart';
 import axios from 'axios';
@@ -109,7 +110,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       addProductCart: (product: string) => addProduct(product),
       getProductsCart: getProductsCart,
       removeProductCart: (product: string) => removeProduct(product),
-      removeAllProductsCart: () => null,
+      removeAllProductsCart: removeAllProductsCart,
     }),
     [totalProductsCart]
   );
