@@ -2,6 +2,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import React from 'react';
 import { STRIPE_TOKEN } from '../../../utils/constants';
+import PaymentForm from './PaymentForm';
 
 const stripePromise = loadStripe(STRIPE_TOKEN);
 
@@ -11,7 +12,7 @@ const Payment = ({ products, address }) => {
       <div className="title">Payment</div>
       <div className="data">
         <Elements stripe={stripePromise}>
-          <p>Payment Form</p>
+          <PaymentForm products={products} address={address} />
         </Elements>
       </div>
     </div>
