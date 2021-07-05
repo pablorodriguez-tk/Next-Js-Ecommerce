@@ -21,7 +21,7 @@ const PaymentForm = ({ products, address }) => {
     setLoading(true);
     if (!stripe || !elements) return;
     const cardElement = elements.getElement(CardElement);
-    const stripeResponse = await stripe.createToken(cardElement);
+    const stripeResponse = await stripe.createToken(cardElement!);
 
     if (stripeResponse.error) {
       toast.error(stripeResponse.error.message);
