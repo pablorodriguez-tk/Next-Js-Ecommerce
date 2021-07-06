@@ -11,6 +11,7 @@ export const registerApi = async (formData: {
   password: string;
 }) => {
   try {
+    axios.defaults.headers.common = {};
     const url = `${BASE_PATH}/auth/local/register`;
     const response: Response = await axios.post(url, formData);
     return response;
@@ -25,6 +26,7 @@ export const loginApi = async (formData: {
   password: string;
 }) => {
   try {
+    axios.defaults.headers.common = {};
     const url = `${BASE_PATH}/auth/local`;
     const response: Response = await axios.post(url, formData);
     return response;
@@ -37,6 +39,7 @@ export const loginApi = async (formData: {
 export const resetPasswordApi = async (email: string) => {
   console.log(email);
   try {
+    axios.defaults.headers.common = {};
     const url = `${BASE_PATH}/auth/forgot-password`;
     const response = await axios.post(url, { email });
     return response;

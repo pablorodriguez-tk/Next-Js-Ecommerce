@@ -6,6 +6,7 @@ import { useCart } from '../../../hooks/useCart';
 const SummaryCart = ({ products, setReloadCart, reloadCart }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const { removeProductCart } = useCart();
+  console.log(totalPrice);
 
   useEffect(() => {
     let price = 0;

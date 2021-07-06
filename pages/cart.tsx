@@ -32,15 +32,13 @@ const FullCart = ({ products }) => {
       const productsTemp: GameList[] | GameList = [];
       for await (const product of products) {
         const data: GameList | null = await getGameByUrlApi(product);
-
-        if (data !== null) {
-          productsTemp.push(data);
-          setProductsData(productsTemp);
-        }
+        productsTemp.push(data!);
       }
+      setProductsData(productsTemp);
     })();
+
     setReloadCart(false);
-  }, [reloadCart]);
+  }, [products, reloadCart]);
 
   return (
     <BasicLayout className="full-cart">

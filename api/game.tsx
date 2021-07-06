@@ -4,6 +4,7 @@ import { BASE_PATH } from '../utils/constants';
 
 export const getLastGamesApi = async (limit: number) => {
   try {
+    axios.defaults.headers.common = {};
     const limitItems = `_limit=${limit}`;
     const sortItems = `_sort=createdAt:desc`;
     const url = `${BASE_PATH}/games?${limitItems}&${sortItems}`;
@@ -21,6 +22,7 @@ export const getGamesPlatformApi = async (
   start: number
 ) => {
   try {
+    axios.defaults.headers.common = {};
     const limitItems = `_limit=${limit}`;
     const sortItems = `_sort=createdAt:desc`;
     const startItems = `_start=${start}`;
@@ -38,6 +40,7 @@ export const getTotalGamesPlatformApi = async (
   platform: string | string[] | undefined
 ) => {
   try {
+    axios.defaults.headers.common = {};
     const url = `${BASE_PATH}/games/count?platform.url=${platform}`;
     const response = await axios.get(url);
     return response.data;
@@ -51,6 +54,7 @@ export const getGameByUrlApi = async (
   path: string | string[] | undefined
 ): Promise<GameList | null> => {
   try {
+    axios.defaults.headers.common = {};
     const url = `${BASE_PATH}/games?url=${path}`;
     const response = await axios.get(url);
     return response.data[0];
@@ -64,6 +68,7 @@ export const searchGamesApi = async (
   title: string | string[] | undefined
 ): Promise<GameList[] | null> => {
   try {
+    axios.defaults.headers.common = {};
     const url = `${BASE_PATH}/games?_q=${title}`;
     const response = await axios.get(url);
     return response.data;
