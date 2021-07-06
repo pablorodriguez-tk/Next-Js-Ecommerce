@@ -6,11 +6,10 @@ import { useCart } from '../../../hooks/useCart';
 const SummaryCart = ({ products, setReloadCart, reloadCart }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const { removeProductCart } = useCart();
-  console.log(totalPrice);
 
   useEffect(() => {
     let price = 0;
-    forEach(products, (product) => (price += product.price));
+    forEach(products, (product) => (price += product.price - product.discount));
     setTotalPrice(price);
   }, [reloadCart, products]);
 
@@ -46,7 +45,7 @@ const SummaryCart = ({ products, setReloadCart, reloadCart }) => {
                 </Table.Cell>
                 <Table.Cell>{product.platform.title}</Table.Cell>
                 <Table.Cell>immediate</Table.Cell>
-                <Table.Cell>${product.price}</Table.Cell>
+                <Table.Cell>${product.price - product.discount}</Table.Cell>
               </Table.Row>
             ))}
 
