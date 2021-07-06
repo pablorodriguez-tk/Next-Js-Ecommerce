@@ -5,6 +5,7 @@ import { GameList } from '../interfaces/gamesInterfaces';
 import BasicLayout from '../layouts/BasicLayout';
 import HeaderGame from '../components/Game/HeaderGame';
 import TabsGame from '../components/Game/TabsGame';
+import Seo from '../components/Seo';
 
 const Game = () => {
   const { query } = useRouter();
@@ -20,6 +21,7 @@ const Game = () => {
 
   return (
     <BasicLayout className="game">
+      <Seo title={game.title} />
       <HeaderGame game={game} />
       <TabsGame game={game} />
     </BasicLayout>

@@ -5,6 +5,7 @@ import { getLastGamesApi } from '../api/game';
 import BasicLayout from '../layouts/BasicLayout';
 import ListGames from '../components/ListGames/ListGames';
 import { GameList } from '../interfaces/gamesInterfaces';
+import Seo from '../components/Seo';
 
 const Home: React.FC = () => {
   const [games, setGames] = useState<GameList[] | null>(null);
@@ -22,6 +23,7 @@ const Home: React.FC = () => {
   return (
     <div className="home">
       <BasicLayout>
+        <Seo />
         {!games && <Loader active>Loading games</Loader>}
         {games && size(games) === 0 && <div>There is no games</div>}
         {size(games) > 0 && <ListGames games={games} />}
